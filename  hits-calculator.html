@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Liverpool HITS – Structured Reporting Calculator (GCS 13–15)</title>
+<style>
+  :root{--bg:#0b1220;--card:#111a2b;--muted:#a8b3c7;--text:#eaf0ff;--accent:#5cc8ff;--good:#2ecc71;--warn:#ffc107;--bad:#ff6b6b;}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:linear-gradient(180deg,#08101d 0%, #0e1a2f 60%, #0b1220 100%);color:var(--text);}
+  .wrap{max-width:980px;margin:32px auto;padding:0 16px;}
+  .title{margin:0 0 8px;font-weight:800;letter-spacing:.2px}
+  .subtitle{margin:0 0 24px;color:var(--muted)}
+  .grid{display:grid;gap:16px}
+  @media(min-width:780px){.grid{grid-template-columns:repeat(3,1fr)}}
+  .card{background:var(--card);border:1px solid #1f2a44;border-radius:16px;padding:14px 14px 6px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .card h3{margin:.25rem 0 .5rem;font-size:1.05rem}
+  fieldset{border:0;margin:0;padding:0}
+  .opt{display:flex;align-items:flex-start;gap:.6rem;margin:.35rem 0;padding:.35rem .5rem;border-radius:10px}
+  .opt:hover{background:#0f1c33}
+  .opt input{margin-top:.25rem;transform:scale(1.1)}
+  .points{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+  .footer-card{grid-column:1/-1}
+  .summary{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:8px}
+  .pill{border-radius:999px;padding:6px 10px;font-weight:700;border:1px solid #243352;background:#0c1730}
+  .pill strong{font-variant-numeric:tabular-nums}
+  .pill.good{border-color:#244b37;color:#b8ffd2;background:#0d2117}
+  .pill.warn{border-color:#4b431f;color:#ffe9a8;background:#221d0d}
+  .pill.bad{border-color:#4b262b;color:#ffd3d3;background:#221112}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+  button{background:var(--accent);color:#001326;border:0;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+  button.secondary{background:#1b2a49;color:var(--text);border:1px solid #2b3b61}
+  textarea{width:100%;min-height:120px;border-radius:12px;border:1px solid #2b3b61;background:#0b152b;color:var(--text);padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  small.helper{color:var(--muted);display:block;margin-top:4px}
+  .note{color:var(--muted);font-size:.92rem}
+  .req{color:#9ad3ff;font-weight:700}
+  a.mini{color:#9ad3ff;text-decoration:underline dotted}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 class="title">Liverpool Head Injury Tomography Score (HITS) – Calculator</h1>
+  <p class="subtitle">Structured reporting for mild TBI (GCS 13–15). Tick one option in each section; the total score and recommendation update automatically.</p>
+
+  <div class="grid">
+    <!-- Extra-axial Haematomas -->
+    <div class="card">
+      <h3>Extra-axial Haematomas <span class="req">(pick one)</span></h3>
+      <fieldset id="extraaxial">
+        <label class="opt"><input type="radio" name="extraaxial" value="0" checked> No extra-axial haemorrhage <span class="points">0</span></label>
+        <label class="opt"><input type="radio" name="extraaxial" value="1"> Tentorial/parafalcine SDH <span class="points">1</span></label>
+        <label class="opt"><input type="radio" name="extraaxial" value="1"> Subdural hygroma <span class="points">1</span></label>
+        <label class="opt"><input type="radio" name="extraaxial" value="3"> Any other subdural haematoma <span class="points">3</span></label>
+        <label class="opt"><input type="radio" name="extraaxial" value="3"> Extradural haematoma <span class="points">3</span></label>
+      </fieldset>
+      <small class="helper">“Any other SDH” includes convexity, interhemispheric (non-falx limited), tenting, etc.</small>
+    </div>
+
+    <!-- Subarachnoid Haemorrhage -->
+    <div class="card">
+      <h3>Subarachnoid Haemorrhage (SAH) <span class="req">(pick one)</span></h3>
+      <fieldset id="sah">
+        <label class="opt"><input type="radio" name="sah" value="0" checked> No SAH <span class="points">0</span></label>
+        <label class="opt"><input type="radio" name="sah" value="1"> Peripheral SAH only <span class="points">1</span></label>
+        <label class="opt"><input type="radio" name="sah" value="2"> Intraventricular haemorrhage <span class="points">2</span></label>
+        <label class="opt"><input type="radio" name="sah" value="3"> Blood around Circle of Willis/Sylvian fissures <span class="points">3</span></label>
+        <label class="opt"><input type="radio" name="sah" value="3"> Blood in basal cisterns <span class="points">3</span></label>
+      </fieldset>
+    </div>
+
+    <!-- Parenchymal Contusion -->
+    <div class="card">
+      <h3>Parenchymal Contusion <span class="req">(pick one)</span></h3>
+      <fieldset id="contusion">
+        <label class="opt"><input type="radio" name="contusion" value="0" checked> No contusion <span class="points">0</span></label>
+        <label class="opt"><input type="radio" name="contusion" value="1"> Single contusion &lt; 1 cm <span class="points">1</span></label>
+        <label class="opt"><input type="radio" name="contusion" value="2"> ≤3 contusions all &lt; 1 cm <span class="points">2</span></label>
+        <label class="opt"><input type="radio" name="contusion" value="2"> ≥1 contusion ≥ 1 cm <span class="points">2</span></label>
+        <label class="opt"><input type="radio" name="contusion" value="3"> ≥4 contusions (any size) <span class="points">3</span></label>
+        <label class="opt"><input type="radio" name="contusion" value="3"> Any single contusion &gt; 2 cm <span class="points">3</span></label>
+      </fieldset>
+    </div>
+
+    <!-- Skull Fracture -->
+    <div class="card">
+      <h3>Skull Fracture <span class="req">(pick one)</span></h3>
+      <fieldset id="fracture">
+        <label class="opt"><input type="radio" name="fracture" value="0" checked> No fracture <span class="points">0</span></label>
+        <label class="opt"><input type="radio" name="fracture" value="1"> Undisplaced fracture <span class="points">1</span></label>
+        <label class="opt"><input type="radio" name="fracture" value="3"> Depressed / comminuted / compound <span class="points">3</span></label>
+        <label class="opt"><input type="radio" name="fracture" value="3"> Penetrating injury / foreign body <span class="points">3</span></label>
+        <label class="opt"><input type="radio" name="fracture" value="3"> Pneumocephalus or base of skull fracture <span class="points">3</span></label>
+      </fieldset>
+    </div>
+
+    <!-- Summary & Output -->
+    <div class="card footer-card">
+      <h3>Summary</h3>
+      <div class="summary">
+        <div id="totalPill" class="pill"><strong>HITS Total: <span id="sum">0</span></strong></div>
+        <div id="recPill" class="pill">Recommendation: <span id="recText">Local management per guidance</span></div>
+      </div>
+
+      <div class="btns">
+        <button id="copyBtn">Copy report text</button>
+        <button class="secondary" id="resetBtn" type="button">Reset form</button>
+      </div>
+
+      <div style="margin-top:10px">
+        <textarea id="reportBox" readonly placeholder="Report text will appear here for copy/paste…"></textarea>
+        <small class="helper note">
+          Logic per Liverpool HITS: 0 = normal; 1 = abnormal—local observation; 2 = abnormal—local observation + rescan ~24h; ≥3 = surgically significant—refer neurosurgery on-call.
+          <span> | </span><a class="mini" href="#" id="toggleDetail">show selections</a>
+        </small>
+      </div>
+
+      <div class="note" style="margin-top:1rem; font-size:0.9rem; color:#a8b3c7;">
+  <strong>Disclaimer:</strong> The HITS score was derived and validated by Gillespie et&nbsp;al. (2020) based on a mild TBI referral cohort (GCS&nbsp;13–15). 
+  They found it to have <strong>99% sensitivity</strong> and <strong>52% specificity</strong> for determining surgically significant TBI (AUC&nbsp;0.79, 95% CI&nbsp;0.76–0.82). 
+  See <a href="https://doi.org/10.1080/02688697.2019.1710825" target="_blank" style="color:#5cc8ff;">
+  Gillespie et&nbsp;al., Br&nbsp;J&nbsp;Neurosurg&nbsp;2020</a> for full details. 
+  This tool reproduces their structured reporting format for clinical use and individual risk stratification. 
+  
+  Copyright © 2025 William Stephen Bolton. All rights reserved. This software is the property of the copyright holder and may not be copied, modified, merged, published, distributed, sublicensed, or sold without prior written permission from the copyright holder. Unauthorized use, reproduction, or distribution of this software, or any portion of it will be prosecuted to the maximum extent possible under law.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const groups = ["extraaxial","sah","contusion","fracture"];
+  const els = Object.fromEntries(groups.map(id => [id, document.getElementById(id)]));
+  const sumEl = document.getElementById("sum");
+  const recText = document.getElementById("recText");
+  const totalPill = document.getElementById("totalPill");
+  const recPill = document.getElementById("recPill");
+  const reportBox = document.getElementById("reportBox");
+  const copyBtn = document.getElementById("copyBtn");
+  const resetBtn = document.getElementById("resetBtn");
+  const toggleDetail = document.getElementById("toggleDetail");
+  let showDetail = false;
+
+  function getValue(name){
+    const sel = document.querySelector(`input[name="${name}"]:checked`);
+    return sel ? Number(sel.value) : 0;
+  }
+  function getLabel(name){
+    const sel = document.querySelector(`input[name="${name}"]:checked`);
+    if(!sel) return "";
+    return sel.parentElement.textContent.replace(/\s+\d+$/, "").trim();
+  }
+
+  function classify(total){
+    // Recommendation mapping
+    if (total >= 3) return {text:"Surgically significant — refer neurosurgery on-call", tone:"bad"};
+    if (total === 2) return {text:"Abnormal — admit locally, repeat CT in ~24 h, follow head injury guidance", tone:"warn"};
+    if (total === 1) return {text:"Abnormal — admit locally for neurological observations; follow guidance", tone:"warn"};
+    return {text:"Local management per guidance (no neurosurgical opinion required)", tone:"good"};
+  }
+
+  function toneClass(el, tone){
+    el.classList.remove("good","warn","bad");
+    el.classList.add(tone === "bad" ? "bad" : tone === "warn" ? "warn" : "good");
+  }
+
+  function update(){
+    const total = groups.map(getValue).reduce((a,b)=>a+b,0);
+    sumEl.textContent = total;
+    const rec = classify(total);
+    recText.textContent = rec.text;
+    toneClass(totalPill, total>=3 ? "bad" : total>0 ? "warn" : "good");
+    toneClass(recPill, rec.tone);
+
+    // Build report text
+    const now = new Date();
+    const parts = [
+      `HITS structured report (GCS 13–15)`,
+      `Total = ${total}`,
+      `Recommendation: ${rec.text}.`
+    ];
+    if (showDetail){
+      parts.push(
+        `Components:`,
+        `• Extra-axial: ${getLabel("extraaxial")}`,
+        `• SAH: ${getLabel("sah")}`,
+        `• Contusion: ${getLabel("contusion")}`,
+        `• Skull fracture: ${getLabel("fracture")}`
+      );
+    }
+    parts.push(`Generated ${now.toLocaleString()}.`);
+    reportBox.value = parts.join("\n");
+  }
+
+  groups.forEach(name=>{
+    els[name].addEventListener("change", update);
+  });
+  copyBtn.addEventListener("click", async ()=>{
+    try{
+      await navigator.clipboard.writeText(reportBox.value);
+      copyBtn.textContent = "Copied!";
+      setTimeout(()=>copyBtn.textContent="Copy report text",1200);
+    }catch(e){
+      reportBox.select(); document.execCommand("copy");
+    }
+  });
+  resetBtn.addEventListener("click", ()=>{
+    document.querySelectorAll('input[type="radio"]').forEach(r=>{
+      if(r.value==="0") r.checked = true;
+      else r.checked = false;
+    });
+    update();
+  });
+  toggleDetail.addEventListener("click", (e)=>{
+    e.preventDefault();
+    showDetail = !showDetail;
+    toggleDetail.textContent = showDetail ? "hide selections" : "show selections";
+    update();
+  });
+
+  update(); // initial
+})();
+</script>
+</body>
+</html>
